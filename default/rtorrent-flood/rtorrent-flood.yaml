@@ -1,0 +1,52 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: rtorrent-flood
+  namespace: default
+  annotations:
+    fluxcd.io/ignore: "false"
+    fluxcd.io/automated: "false"
+    fluxcd.io/tag.chart-image: glob:0.9.*
+spec:
+  releaseName: rtorrent-flood
+  helmVersion: v3
+  rollback:
+    enable: true
+  chart:
+    repository: https://k8s-at-home.com/charts/
+    name: rtorrent-flood
+    version: 5.0.0
+  values:
+    uid: 1001
+    gid: 1001
+    guiService:
+      type: ClusterIP
+      port: 3010
+    btService:
+      #type: LoadBalancer
+      type: ClusterIP
+      port: 49161
+      #loadBalancerIP: 10.0.6.54
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+    persistence:
+      config:
+        enabled: true
+        existingClaim: rtorrent-flood-config-pvc
+      data:
+        enabled: true
+        existingClaim: rtorrent-flood-data-pvc
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 35m
+      limits:
+        memory: 1000Mi
+  valueFileSecrets:
+  - name: "rtorrent-flood-helm-values"
