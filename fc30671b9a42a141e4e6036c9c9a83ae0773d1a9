@@ -1,0 +1,1 @@
+{"jobID":"445cb092-b605-8afd-4034-fe50087e44f8","spec":{"type":"policy","cause":{"Message":"","User":"Mark Shields \u003claebshade@gmail.com\u003e"},"spec":{"default:helmrelease/rtorrent-flood":{"add":{"automated":"true"},"remove":{}}}},"result":null}
