@@ -16,11 +16,11 @@ metadata:
     name: flux
   name: flux
 rules:
-  - apiGroups: ['*']
-    resources: ['*']
-    verbs: ['*']
-  - nonResourceURLs: ['*']
-    verbs: ['*']
+- apiGroups: ['*']
+  resources: ['*']
+  verbs: ['*']
+- nonResourceURLs: ['*']
+  verbs: ['*']
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
@@ -33,9 +33,9 @@ roleRef:
   kind: ClusterRole
   name: flux
 subjects:
-  - kind: ServiceAccount
-    name: flux
-    namespace: flux
+- kind: ServiceAccount
+  name: flux
+  namespace: flux
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -189,7 +189,6 @@ spec:
         # Include these two to enable git commit signing
         # - --git-gpg-key-import=/root/gpg-import
         # - --git-signing-key=<key id>
-        
         # Include this to enable git signature verification
         # - --git-verify-signatures
 
@@ -247,7 +246,7 @@ spec:
         beta.kubernetes.io/os: linux
       containers:
       - name: memcached
-        image: memcached:1.5.20
+        image: memcached:1
         imagePullPolicy: IfNotPresent
         args:
         - -m 512   # Maximum memory to use, in megabytes
@@ -269,7 +268,7 @@ metadata:
   namespace: flux
 spec:
   ports:
-    - name: memcached
-      port: 11211
+  - name: memcached
+    port: 11211
   selector:
     name: memcached
